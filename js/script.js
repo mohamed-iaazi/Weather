@@ -3,7 +3,7 @@ let lat="32.3143078";
 let lon="-6.9101911";
 const API_Key="2a71ab111db231ab910e09ad7286c395";
 const  link =`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_Key}`;
-
+const placeholder=document.getElementsByClassName("row");
 
 
 //Geting Search value and fetch
@@ -11,19 +11,46 @@ const  link =`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${l
 // start geting data from api 
 getdata(link);
 
-async function getdata(url) {
-   // try {
-   //     const response = await fetch(url); // Wait for the fetch to complete
-   //     if (!response.ok) {
-   //         throw new Error(`HTTP error! Status: ${response.status}`);
-   //     }
-   //     const data = await response.json(); // Wait for the JSON parsing
-   //     recived_data.push(data); // Add the parsed data to recived_data array
-   // } catch (error) {
-   //     console.error("Error fetching data:", error);
-   // }
+ function getdata(url) {
+    fetch(url)
+    .then(response=> response.json)
+    .then(data =>{
+      var speed=data['wind']['speed'];
+      var feel=data['main']['feels_like'];
+      var temp=data['apply']['temp'];
 
-   // localStorage.setItem("data",JSON.stringify(recived_data));
+
+      const info= ` <div class="col-sm-12 col-md-4">
+                <div class="today ">
+                 <section class="temp cards">
+                 <div class="temp d-flex justify-content-between">
+                    <h4> ${temp}</h4>
+                    <h5>c°</h5>
+                 </div>
+                 <div class="d-flex justify-content-between">
+                    <h5>H: 23</h5>
+                    <h5>L:27</h5>
+                 </div>
+                 </section>
+
+                 <section class="cards">
+                       <h4 class="p-2">${data['name']}</h4>
+                       <h5 class="p-1">feels  like ${feel}</h5>
+                       <h5 class="p-1">wind : ${speed}</h5>
+                       <h5 class="p-1" >humidity :27%</h5>
+                
+                    </section>
+                </div>
+
+
+             </div>
+             
+             `
+      placeholder.innerHTML=info
+      
+
+    })
+    .catch(alert("Error"));
 }
 
 
