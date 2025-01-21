@@ -1,0 +1,55 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    background: url("../assets/back.png") no-repeat center;
+    min-width: 360px;
+}
+.cards{
+    background-color: #f0f8ff75;
+    border-radius: 4px;
+    box-shadow: 0 3px 0px #89898937;
+    border: none;
+    height: fit-content;
+    width: 100%;
+    margin-top: 30px;
+    padding: 5px 30px;
+    padding-bottom: 20px;
+}
+.card{
+    width: fit-content;
+
+}
+.card img{
+    height: 60px;
+    width: 60px;
+}
+.week img{
+
+    height: 40px;
+    width: 40px;
+}
+
+h5{
+    color: rgb(97, 96, 96);
+    font-size: 16px;
+}
+h4{
+    font-size: 20px;
+} 
+.temp h4{
+    font-size: 80px;
+    font-weight: bolder;
+}
+.temp{
+    border-radius: 50px;
+}
+input::placeholder{
+    color: rgb(68, 67, 67);
+}
+input:focus{
+    border:  solid rgba(87, 153, 189, 0.377) 3px;
+    box-shadow: none;
+    outline: none;
+}
