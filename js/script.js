@@ -15,6 +15,8 @@ getdata(link);
     fetch(url)
     .then(response=> response.json())
     .then(data =>{
+      const {list} = data;
+      console.log(list)
       var speed=data['list'][0]['wind']['speed'];
       var feel=data['list'][0]['main']['feels_like'];
       var temp=data['list'][0]['main']['temp'];
@@ -109,21 +111,7 @@ const minutes = date.getMinutes();
 
 
                 </section>
-              <section class="cards week-list mb-3">
-
-                <div class="week  d-flex justify-content-between">
-                        <!-- card now  -->
-                           <h4 class="p-2">Today</h4>
-                           <img class="p-1" src="./assets/rain.png">
-                           <img class="p-1" src="./assets/rain.png">
-                           <h5 class="p-1 ms-3">10°</h5>
-                           <h5 class="p-1 ms-3">10°</h5>
-                 </div>
-                
-           
-                </section>
-
-
+         
              </div>
              `
       placeholder.innerHTML=info;
