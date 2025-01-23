@@ -1,22 +1,19 @@
 const recived_data=[];
-let lat="32.3143078";
-let lon="-6.9101911";
+let lat="";
+let lon="";
 const API_Key="2a71ab111db231ab910e09ad7286c395";
-const  link =`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_Key}&units=metric`;
 const placeholder=document.getElementById("place");
-
-
+const array=[];
 //Geting Search value and fetch
+GetLocalisation();
 
-// start geting data from api 
-getdata(link);
 
  function getdata(url) {
+
     fetch(url)
     .then(response=> response.json())
     .then(data =>{
-      const {list} = data;
-      console.log(list)
+      array.push(data);
       var speed=data['list'][0]['wind']['speed'];
       var feel=data['list'][0]['main']['feels_like'];
       var temp=data['list'][0]['main']['temp'];
@@ -67,7 +64,7 @@ const minutes = date.getMinutes();
                <!-- search bar -->
              <div class=" col-sm-12 col-md-4" id="searchbar">
             
-                 <input class="cards" type="text" placeholder="Search ...">
+                 <input  id="search" "class="cards" type="text" placeholder="Search ..."> <button id="btn-search" class="d-inline-block btn-outline-light pt-1 pb-1 ps-2 pe-2 b rounded" type="button">Search</button>
             
                 
               </div>
@@ -88,7 +85,7 @@ const minutes = date.getMinutes();
                         <h5 class="p-1 text-center">${temp}°</h5>
                      </section>
 
-                     <section class="card">
+                     <section class="card ">
                         <h4 class="p-2">${date1.getHours()}:${date1.getMinutes()}0</h4>
                         <img class="p-1" src="https://openweathermap.org/img/wn/${data['list'][1]['weather'][0]['icon']}@2x.png" alt="icons weather">
                         <h5 class="p-1 ms-3 text-center">${data['list'][1]['main']['temp']}°</h5>
@@ -107,22 +104,112 @@ const minutes = date.getMinutes();
                      </section>
                 
                 </div>
-
-
-
                 </section>
          
              </div>
              `
       placeholder.innerHTML=info;
-      
+      const weeks = `
+    <section class="cards week-list mb-3">
 
+                <div class="week  d-flex justify-content-between w-100">
+                        <!-- card now  -->
+                           <h4 class="p-2  ">Thursday</h4>
+                           <img class="p-1" src="https://openweathermap.org/img/wn/${data['list'][0]['weather'][0]['icon']}@2x.png">
+                           <h5 class="p-1 ms-3">${data['list'][0]['main']['temp']}°</h5>
+                 </div>
+
+                     <div class="week  d-flex justify-content-between w-100">
+                        <!-- card now  -->
+                           <h4 class="p-2 ps-4"> Friday </h4>
+                           <img class="p-1" src="https://openweathermap.org/img/wn/${data['list'][6]['weather'][0]['icon']}@2x.png">
+                           <h5 class="p-1 ms-3">${data['list'][6]['main']['temp']}°</h5>
+                 </div>
+
+                   <div class="week  d-flex justify-content-between w-100">
+                        <!-- card now  -->
+                           <h4 class="p-2">Saturday</h4>
+                           <img class="p-1" src="https://openweathermap.org/img/wn/${data['list'][15]['weather'][0]['icon']}@2x.png">
+                           <h5 class="p-1 ms-3">${data['list'][15]['main']['temp']}°</h5>
+                 </div>
+
+                   <div class="week  d-flex justify-content-between w-100">
+                        <!-- card now  -->
+                           <h4 class="p-2">Sanday</h4>
+                           <img class="p-1" src="https://openweathermap.org/img/wn/${data['list'][24]['weather'][0]['icon']}@2x.png">
+                           <h5 class="p-1 ms-3">${data['list'][24]['main']['temp']}°</h5>
+                 </div>
+
+                   <div class="week  d-flex justify-content-between w-100">
+                        <!-- card now  -->
+                           <h4 class="p-2">Monday</h4>
+                           <img class="p-1" src="https://openweathermap.org/img/wn/${data['list'][31]['weather'][0]['icon']}@2x.png">
+                           <h5 class="p-1 ms-3">${data['list'][31]['main']['temp']}°</h5>
+                 </div>
+                
+           
+                </section>
+  `
+
+  placeholder.insertAdjacentHTML("beforeend" ,weeks);
+
+
+  document.getElementById("btn-search").addEventListener('click' , function(){
+   Search();
+});
+
+      
     })
+   //  .then(list =>{
+   //    week(array)
+   //    console.log(array)})
     .catch(error =>alert("Error"+error));
+
+  
+
+}
+
+  
+
+
+function GetLocalisation() {
+   console.log("start local");
+   
+
+   if ("geolocation" in navigator) {
+      /* geolocation is available */
+      console.log("avilable");
+
+      navigator.geolocation.getCurrentPosition((position) => {
+         console.log("get position"+position.coords.latitude +""+position.coords.longitude);
+
+         lat=position.coords.latitude;
+         lon= position.coords.longitude;
+         console.log("get position"+lat +""+lon);
+           // start geting data from api 
+         getdata(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_Key}&units=metric`);
+
+       });
+       
+    } else {
+      /* geolocation IS NOT available */
+      console.log("else");
+
+    }
+
+   
 }
 
 
+function Search(){
+   console.log("search");
+   
+ document.getElementById("search").value.trim();
+ console.log("city "+ document.getElementById("search").value.trim());
+ 
+ getdata(`https://api.openweathermap.org/data/2.5/forecast?q=${document.getElementById("search").value.trim()}&appid=${API_Key}&units=metric`);
 
+}
 
 
 
